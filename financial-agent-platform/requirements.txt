@@ -1,0 +1,7 @@
+langgraph
+langchain-openai
+langchain-core
+python-dotenv
+ollama
+langchain-ollama
+langchain_community
