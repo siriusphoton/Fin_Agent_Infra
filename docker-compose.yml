@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  # The Database
+  db:
+    image: ankane/pgvector:latest # Postgres pre-installed with the vector extension
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: financial_agent
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # A GUI to see your data (Optional but helpful)
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: finagentdb
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

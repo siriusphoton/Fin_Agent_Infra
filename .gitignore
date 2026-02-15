@@ -205,3 +205,8 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+*/datamaking/mds/
+*/datamaking/html10k/
+*/datamaking/sp500_companies.csv
