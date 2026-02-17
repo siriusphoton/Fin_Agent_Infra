@@ -7,7 +7,7 @@ from tools import tools
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode, tools_condition
 from langchain_ollama import ChatOllama
-from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 load_dotenv()
 
 llm = ChatOllama(
@@ -23,9 +23,10 @@ def reasoner(state: AgentState):
     The Main Node: It looks at the conversation history and decides what to do.
     """
     # Get the message history
+    instruction = SystemMessage(content="When you use search_10k tool make sure you give a long and detailed query for effective retrieval. only answer after analyzing tool output never answer on your own knowledge")
     messages = state["messages"]
     # Ask the LLM
-    response = llm_with_tools.invoke(messages)
+    response = llm_with_tools.invoke([instruction] + messages)
     # Return the new message to update the state
     return {"messages": [response]}
 
