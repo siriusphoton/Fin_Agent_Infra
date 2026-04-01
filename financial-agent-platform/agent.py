@@ -25,6 +25,7 @@ def reasoner(state: AgentState):
     # Get the message history
     instruction = SystemMessage(content="When you use search_10k tool make sure you give a long and detailed query for effective retrieval. only answer after analyzing tool output never answer on your own knowledge")
     messages = state["messages"]
+    print(type(messages))
     # Ask the LLM
     response = llm_with_tools.invoke([instruction] + messages)
     # Return the new message to update the state

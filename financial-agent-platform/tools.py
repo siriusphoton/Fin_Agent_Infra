@@ -73,4 +73,47 @@ def search_10k(query: str, ticker: str):
     except Exception as e:
         return f"Error searching documents: {str(e)}"
 
-tools = [get_stock_price, search_10k]
+@tool
+def calculate_financial_metric(metric: str, value_a: float, value_b: float):
+    """
+    Performs deterministic financial calculations. ALWAYS use this for ratios, margins, or growth rates.
+    NEVER do math in your head.
+
+    Args:
+        metric: The name of the metric (e.g., "net_margin", "current_ratio", "pe_ratio").
+        value_a: The numerator or primary value (e.g., Net Income, Current Assets, Price).
+        value_b: The denominator or secondary value (e.g., Revenue, Current Liabilities, EPS).
+    """
+    print(f"\n--- 🧮 TOOL CALL: Calculating {metric} ({value_a} / {value_b}) ---")
+    
+    try:
+        if value_b == 0:
+            return "Error: Division by zero is not allowed."
+            
+        result = 0.0
+        
+        if metric.lower() in ["net_margin", "profit_margin"]:
+            # Net Income / Revenue
+            result = (value_a / value_b) * 100
+            return f"The {metric} is {result:.2f}%"
+            
+        elif metric.lower() == "current_ratio":
+            # Current Assets / Current Liabilities
+            result = value_a / value_b
+            return f"The Current Ratio is {result:.2f}"
+            
+        elif metric.lower() == "pe_ratio":
+            # Price / EPS
+            result = value_a / value_b
+            return f"The P/E Ratio is {result:.2f}"
+            
+        else:
+            # Generic Division fallback
+            result = value_a / value_b
+            return f"The calculated value for {metric} is {result:.2f}"
+
+    except Exception as e:
+        return f"Calculation Error: {str(e)}"
+
+# Update your tools list
+tools = [get_stock_price, search_10k, calculate_financial_metric]
